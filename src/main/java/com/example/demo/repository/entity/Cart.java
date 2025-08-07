@@ -29,7 +29,10 @@ public class Cart extends AggregateRoot{
             .ifPresentOrElse(
                 item -> itme.increaseQuantity(quantity), //있으면 같은 상품 수량 증가
                 () -> itmes.add(new CartItem(product, option, quantity)) //없으면 없는 상품 새로 추가
-            )
+            );
     }
 
+    pubilc long calculateTotalPrice(){
+        return  itmes.stream().mapToLong(CartItem::calculatePrice).sum();
+    }
 }

@@ -1,8 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.entity.Product;
-import com.example.demo.repository.ports.IProductRepositoryPort;
+import com.example.demo.repository.ports.IProduct_RepositoryPort;
 import com.example.demo.service.usecases.IDisplayProductUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 
 public class ProductService implements IDisplayProductUseCase {
-    private final IProductRepositoryPort productRepositoryPort;
+    private final IProduct_RepositoryPort productRepositoryPort;
     private final ProductRepository productRepository;
 
     @Override
@@ -24,10 +23,16 @@ public class ProductService implements IDisplayProductUseCase {
             ? productRepository.findByKeyword(keyword)
             : productRepository.findAll();
 
+        //재고가 있는 상품만 필터링
         return products.stream()
             .filter(Product::hasStock)
             .collect(Collectors.toList());
     }
 
+    @Override
+    public Product getProductById(Long productId) {
+        return  productRepository.findById(productId)
+            .orElseThrow(()->new IllegalArgumentException("죄송합니다. 상품을 찾을 수 없습니다."));
+    }
 
 }

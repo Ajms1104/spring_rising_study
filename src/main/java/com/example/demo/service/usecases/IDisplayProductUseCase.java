@@ -1,4 +1,4 @@
-package com.example.demo.service.usecase;
+package com.example.demo.service.usecases;
 
 import com.example.demo.repository.entity.Product;
 import com.example.demo.service.IInputPort;

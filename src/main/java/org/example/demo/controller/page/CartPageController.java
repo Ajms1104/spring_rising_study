@@ -1,4 +1,4 @@
-package com.example.demo.controller.page;
+package org.example.demo.controller.page;
 
 import com.example.demo.controller.page.dto.AddProductToCartRequestDto;
 import com.example.demo.service.usecases.IManageCartUseCase;

@@ -1,0 +1,49 @@
+package com.example.demo.controller.api.dto;
+//OrderItemReponseDto
+
+
+import com.example.demo.repository.entity.Order;
+import com.example.demo.repository.entity.vo.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+
+public class OrderItemReponseDto {
+    private final Long id;
+    private final Long customerId;
+    private final List<OrderResponseDto> orderItems;
+    private final long originalPrice;
+    private final long discountedPrice;
+    private final String recipient;
+    private final String address;
+    private final String phone;
+    private final OrderStatus status;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime orderDate;
+
+    public static  OrderResponseDto from(Order entity){
+        return new OrderResponseDto(
+            entity.getId(),
+            entity.getCustomerId(),
+            entity.getOrderItems().stream().map(OrderItemResponseDto::from).toList(),
+            entity.getOriginalPrice(),
+            entity.getDiscountedPrice(),
+            entity.getShippingInfo().getRecipient(),
+            entity.getShippingInfo().getAddress(),
+            entity.getShippingInfo().getPhone(),
+            entity.getStatus(),
+            entity.getOrderDate()
+        );
+    }
+
+
+}
